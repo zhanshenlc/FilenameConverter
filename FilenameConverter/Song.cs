@@ -24,18 +24,24 @@ namespace FilenameConverter {
                     if (Path.GetExtension(item.Name).CompareTo(fileExtension) == 0) {
                         string title = "";
                         string number = "";
+                        string discNumber = "";
                         for (int i = 0; i < arrHeaders.Count; i++) {
                             if (arrHeaders[i].CompareTo("标题") == 0) {
                                 title = objFolder.GetDetailsOf(item, i);
                             } else if (arrHeaders[i].CompareTo("#") == 0) {
                                 number = objFolder.GetDetailsOf(item, i);
+                            } else if (arrHeaders[i].CompareTo("部分设置") == 0) {
+                                discNumber = objFolder.GetDetailsOf(item, i);
                             }
                         }
                         if (title.CompareTo("") == 1 && number.CompareTo("") == 1) {
                             if (number.Length == 1) {
                                 number = "0" + number;
                             }
-                            File.Move(item.Name, number + " - " + title + fileExtension);
+                            if (discNumber.Length > 0) {
+                                discNumber += ".";
+                            }
+                            File.Move(item.Name, discNumber + number + " - " + title + fileExtension);
                             count++;
                         }
                     }

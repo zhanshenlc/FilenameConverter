@@ -6,6 +6,7 @@ namespace FilenameConverter {
         [STAThread]
 
         static void Main(string[] _) {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             while (true) {
                 Console.WriteLine("Filename Converter\nPress 1 for songs\nPress 2 for anime\nPress Esc to exit");
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
