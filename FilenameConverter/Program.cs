@@ -14,13 +14,36 @@ namespace FilenameConverter {
                 Console.WriteLine();
                 if (keyInfo.Key == ConsoleKey.Escape) {
                     return;
-                } else if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1) {
+                } 
+                // Song
+                else if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1) {
                     Song.ConvertSong();
                     break;
-                } else if (keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2) {
-                    Anime.ConvertAnime();
-                    break;
-                } else if (keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3) {
+                }
+                // Anime
+                else if (keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2) {
+                    while (true) {
+                        Console.WriteLine("Anime Filename Converter\nPress 1 for matching\n" +
+                            "Press 2 for replacing invalid characters\nPress 0 to return to last menu" +
+                            "\nPress Esc to exit\n");
+                        keyInfo = Console.ReadKey();
+                        if (keyInfo.Key == ConsoleKey.Escape) {
+                            return;
+                        } else if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1) {
+                            Anime.ConvertAnimeSubtitleFilename();
+                            break;
+                        } else if (keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2) {
+                            Anime.ReplaceInvalidCharacters();
+                            break;
+                        } else if (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.NumPad0) {
+                            break;
+                        } else {
+                            Console.WriteLine("Invalid Input\n");
+                        }
+                    }
+                }
+                // Subtitle
+                else if (keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3) {
                     while (true) {
                         Console.WriteLine("Subtitle TimeLine Editor\nPress 1 for 1 file\n" +
                             "Press 2 for all files in folder\nPress 0 to return to last menu" +
@@ -32,7 +55,7 @@ namespace FilenameConverter {
                             string filename;
                             string currentDirectory = Directory.GetCurrentDirectory();
                             while (true) {
-                                Console.WriteLine("Input the filename: ");
+                                Console.WriteLine("\nInput the filename: ");
                                 filename = Console.ReadLine();
                                 filename = Path.Combine(currentDirectory, filename);
                                 if (Path.IsPathFullyQualified(filename)) {

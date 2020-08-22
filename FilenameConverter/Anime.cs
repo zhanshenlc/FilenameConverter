@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace FilenameConverter {
     class Anime {
 
-        public static void ConvertAnime() {
+        public static void ConvertAnimeSubtitleFilename() {
             string currentDirectory = Directory.GetCurrentDirectory();
             string[] filenames = Directory.GetFiles(currentDirectory);
             List<String> videos = new List<string>(), subtitles = new List<string>();
@@ -54,7 +55,20 @@ namespace FilenameConverter {
             for (int i = 0; i < videos.Count; i++) {
                 File.Move(subtitles[i], Path.GetFileNameWithoutExtension(videos[i]) + subtitleExtension);
             }
-            Console.WriteLine("{0} files converted", videos.Count);
+            Console.WriteLine("\n{0} files converted", videos.Count);
+        }
+
+        public static void ReplaceInvalidCharacters() {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] filenames = Directory.GetFiles(currentDirectory);
+            foreach (string filename in filenames) {
+                int count = filename.Length - filename.Replace("_", "").Length;  // Number of _ in filename
+                if (count < 1) {
+                    continue;
+                }
+                string newFilename = filename.Replace(String.Concat(Enumerable.Repeat("_", count)), new DirectoryInfo(currentDirectory).Name);
+                File.Move(filename, newFilename);
+            }
         }
     }
 }
