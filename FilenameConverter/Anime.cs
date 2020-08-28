@@ -66,7 +66,14 @@ namespace FilenameConverter {
                 if (count < 1) {
                     continue;
                 }
+
+                // [LowPower-Raws]
                 string newFilename = filename.Replace(String.Concat(Enumerable.Repeat("_", count)), new DirectoryInfo(currentDirectory).Name);
+
+                // [Snow-Raws]
+                if (newFilename == filename) {
+                    newFilename = filename.Replace(String.Concat(Enumerable.Repeat("_", count - 2)), new DirectoryInfo(currentDirectory).Name);
+                }
                 File.Move(filename, newFilename);
             }
         }
