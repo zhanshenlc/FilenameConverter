@@ -73,6 +73,10 @@ namespace FilenameConverter {
                 // [Snow-Raws]
                 if (newFilename == filename) {
                     newFilename = filename.Replace(String.Concat(Enumerable.Repeat("_", count - 2)), new DirectoryInfo(currentDirectory).Name);
+                    char[] filenameCharList = newFilename.ToCharArray();
+                    filenameCharList[newFilename.IndexOf('_')] = '第';
+                    filenameCharList[newFilename.LastIndexOf('_')] = '話';
+                    newFilename = new string(filenameCharList);
                 }
                 File.Move(filename, newFilename);
             }
