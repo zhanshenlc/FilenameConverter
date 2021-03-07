@@ -41,6 +41,8 @@ namespace FilenameConverter {
                             if (discNumber.Length > 0) {
                                 discNumber += ".";
                             }
+                            title.Replace(':', '：');
+                            title.Replace('/', '／');
                             File.Move(item.Name, discNumber + number + " - " + title + fileExtension);
                             count++;
                         }
