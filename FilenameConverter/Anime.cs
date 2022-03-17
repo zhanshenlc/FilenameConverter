@@ -28,6 +28,14 @@ namespace FilenameConverter {
                         return;
                     }
                     subtitles.Add(filename);
+                } else if (Path.GetExtension(filename) == ".ssa") {
+                    if (subtitleExtension.CompareTo("") == 0) {
+                        subtitleExtension = ".ssa";
+                    } else if (subtitleExtension.CompareTo(".ssa") == 1) {
+                        Console.WriteLine("Mutiple subtitle types found");
+                        return;
+                    }
+                    subtitles.Add(filename);
                 } else if (Path.GetExtension(filename) == ".mkv") {
                     if (videoExtension.CompareTo("") == 0) {
                         videoExtension = ".mkv";
