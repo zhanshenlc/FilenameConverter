@@ -41,6 +41,7 @@ namespace FilenameConverter {
                             Console.WriteLine("Invalid Input\n");
                         }
                     }
+                    break;
                 }
                 // Subtitle
                 else if (keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3) {
