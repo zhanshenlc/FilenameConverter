@@ -8,16 +8,52 @@ namespace FilenameConverter {
         static void Main(string[] _) {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             while (true) {
-                Console.WriteLine("Filename Converter\nPress 1 for songs\nPress 2 for anime\n" +
-                    "Press 3 for editing subtitle timeline\nPress Esc to exit\n");
+                Console.WriteLine(
+                    "Filename Converter\n" +
+                    "Press 1 for songs\n" +
+                    "Press 2 for anime\n" +
+                    "Press 3 for editing subtitle timeline\n" +
+                    "Press 4 for generating song rating database\n" +
+                    "Press 5 for adding song data according to database\n" +
+                    "Press Esc to exit\n"
+                    );
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 Console.WriteLine();
                 if (keyInfo.Key == ConsoleKey.Escape) {
                     return;
-                } 
+                }
                 // Song
                 else if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1) {
-                    Song.ConvertSong();
+                    while (true) {
+                        Console.WriteLine("Song Filename Converter\nPress 1 for normal songs\n" +
+                            "Press 2 for songs with disc number\nPress 3 for removing names\nPress Esc to exit\n");
+                        keyInfo = Console.ReadKey();
+                        if (keyInfo.Key == ConsoleKey.Escape) {
+                            return;
+                        } else if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1) {
+                            Song.ConvertSong();
+                            break;
+                        } else if (keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2) {
+                            string discNumber;
+                            while (true) {
+                                Console.WriteLine("\nInput the disc number: ");
+                                discNumber = Console.ReadLine();
+                                try {
+                                    int discNum = Int32.Parse(discNumber);
+                                    Song.ConvertSong(discNum);
+                                    break;
+                                } catch (FormatException e) {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                            break;
+                        } else if (keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3) {
+                            Song.ConvertSong(-1, true);
+                            break;
+                        } else {
+                            Console.WriteLine("Invalid Input\n");
+                        }
+                    }
                     break;
                 }
                 // Anime
@@ -74,6 +110,10 @@ namespace FilenameConverter {
                             Console.WriteLine("Invalid Input\n");
                         }
                     }
+                } else if (keyInfo.Key == ConsoleKey.D4 || keyInfo.Key == ConsoleKey.NumPad4) {
+                    SongRating.QueryFileData(@"D:\Media\音楽\Music\", @"C:\Users\pc\Desktop\");
+                } else if (keyInfo.Key == ConsoleKey.D5 || keyInfo.Key == ConsoleKey.NumPad5) {
+                    SongRating.EditSongData(@"C:\Users\pc\Desktop\UserMusicCollectionDatabase.txt");
                 } else {
                     Console.WriteLine("Invalid Input\n");
                 }

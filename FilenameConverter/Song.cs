@@ -5,7 +5,7 @@ using System.IO;
 namespace FilenameConverter {
     class Song {
 
-        public static void ConvertSong() {
+        public static void ConvertSong(int discNum = -1, bool remove_name=false) {
             List<string> arrHeaders = new List<string>();
             Shell32.Shell shell = new Shell32.Shell();
             Shell32.Folder objFolder;
@@ -25,6 +25,7 @@ namespace FilenameConverter {
                         string title = "";
                         string number = "";
                         string discNumber = "";
+
                         for (int i = 0; i < arrHeaders.Count; i++) {
                             if (arrHeaders[i].CompareTo("标题") == 0) {
                                 title = objFolder.GetDetailsOf(item, i);
@@ -34,24 +35,36 @@ namespace FilenameConverter {
                                 discNumber = objFolder.GetDetailsOf(item, i);
                             }
                         }
+
                         if (title.CompareTo("") == 1 && number.CompareTo("") == 1) {
                             if (number.Length == 1) {
                                 number = "0" + number;
                             }
+
                             if (discNumber.Length > 0) {
                                 discNumber += ".";
+                            } else if (discNum > 0) {
+                                discNumber = discNum.ToString() + ".";
+                            }    
+
+                            if (remove_name) {
+                                File.Move(item.Name, number + fileExtension);
+                            } else {
+
+                                title = title.Replace(':', '：');
+                                title = title.Replace('/', '／');
+                                title = title.Replace('*', '＊');
+                                title = title.Replace('?', '？');
+
+                                File.Move(item.Name, discNumber + number + " - " + title + fileExtension);
                             }
-                            title = title.Replace(':', '：');
-                            title = title.Replace('/', '／');
-                            title = title.Replace('*', '＊');
-                            title = title.Replace('?', '？');
-                            File.Move(item.Name, discNumber + number + " - " + title + fileExtension);
+
                             count++;
                         }
                     }
                 }          
             }
-            Console.WriteLine("{0} files converted", count);
+            Console.WriteLine("\n{0} files converted", count);
         }
 
     }
